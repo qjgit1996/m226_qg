@@ -5,8 +5,15 @@ public class Konto {
     public static final String ISO_KONTO_NORM_NUMMER = "127390";
     // Instanzvariablen
     private double saldo, zinssatz;
+    private Kunde inhaber;
 
     // Konstruktor(en)
+    public Konto(double saldo, double zinssatz, Kunde inhaber) {
+        this.inhaber = inhaber;
+        this.saldo = saldo;
+        this.zinssatz = zinssatz;
+    }
+
     public Konto(double saldo, double zinssatz) {
         this.saldo = saldo;
         this.zinssatz = zinssatz;
@@ -37,9 +44,19 @@ public class Konto {
     }
 
     public void verzinsen(int tage){
-        double zins = this.saldo * this.zinssatz / 365 * tage;
-        this.saldo += zins;
+        if (tage > 0) {
+            double zins = this.saldo * this.zinssatz / 365 * tage;
+            this.saldo += zins;
+        }
     }
 
 
+    @Override
+    public String toString() {
+        return "Konto{" +
+                "saldo=" + saldo +
+                ", zinssatz=" + zinssatz +
+                ", inhaber=" + inhaber +
+                '}';
+    }
 }

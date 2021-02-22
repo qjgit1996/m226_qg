@@ -64,8 +64,20 @@ class KontoTest {
     }
 
     @Test
-    void verzinsen() {
+    void verzinsenStandard() {
         k.verzinsen(365);
         assertEquals(k.getSaldo(), 101);
+    }
+
+    @Test
+    void verzinsenNegativ() {
+        k.verzinsen(-365);
+        assertEquals(k.getSaldo(), 100);
+    }
+
+    @Test
+    void verzinsenNull() {
+        k.verzinsen(0);
+        assertEquals(k.getSaldo(), 100);
     }
 }
