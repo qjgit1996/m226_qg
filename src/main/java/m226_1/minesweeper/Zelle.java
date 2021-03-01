@@ -11,4 +11,8 @@ public class Zelle {
         this.xPosition = xPosition;
         this.yPosition = yPosition;
     }
+
+    public boolean getAufgedeckt() {
+        return this.aufgedeckt;
+    }
 }
