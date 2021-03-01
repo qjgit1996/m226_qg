@@ -11,9 +11,9 @@ public class Spielmatrix {
         this.size = size;
     }
 
-    public void zelleHinzufuegen() {
-        for (int i = 0; i < this.size; i++) {
-            for (int j = 0; j < this.size; j++) {
+    public void zellenHinzufuegen() {
+        for (int i = 0; i < this.size-1; i++) {
+            for (int j = 0; j < this.size-1; j++) {
                 Zelle zelle = new Zelle(i, j);
                 this.matrix.add(zelle);
             }
@@ -22,12 +22,29 @@ public class Spielmatrix {
 
     public void matrixAusgeben() {
         int zeile = 0;
-        for (int i = 0; i < this.matrix.size(); i++) {
+        int computedSize = (this.size+1) * (this.size+1);
+        for (int i = 0; i <= this.matrix.size()+39; i++) {
             if (zeile == 0) {
-                System.out.println("1");
+                if (i == 0) {
+                    System.out.print(" ");
+                }
+                if (i != 0) {
+                    System.out.print("  "+i);
+                }
+                if (i % this.size == 0 && i != 0) {
+                    zeile++;
+                }
             }
-            if (i%this.size == 0 && this.matrix.get(i).getAufgedeckt() == false)
-            System.out.print(" ");
+            else {
+                if (i % (this.size+1) == 0) {
+                    System.out.println();
+                    System.out.print(zeile);
+                    zeile++;
+                }
+                else {
+                    System.out.print("   ");
+                }
+            }
         }
     }
 }
