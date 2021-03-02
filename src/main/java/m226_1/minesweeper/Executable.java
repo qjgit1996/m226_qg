@@ -4,7 +4,8 @@ public class Executable {
     public static void main(String[] args) {
         Spielmatrix spielmatrix = new Spielmatrix(10);
         spielmatrix.zellenHinzufuegen();
-        spielmatrix.matrixAusgeben();
+        SpielEngine engine = new SpielEngine(spielmatrix);
+        engine.start();
 
     }
 }
