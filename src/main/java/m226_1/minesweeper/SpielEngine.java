@@ -14,17 +14,7 @@ public class SpielEngine {
         while (!this.gameOver) {
             this.matrix.matrixAusgeben();
             char[] inputSpieler = checkInput();
-            for (int i = 0; i < this.matrix.getMatrix().size(); i++) {
-                if (this.matrix.getMatrix().get(i).getX() == Integer.valueOf(inputSpieler[1]) && this.matrix.getMatrix().get(i).getY() == Integer.valueOf(inputSpieler[2])) {
-                    Character inputChar = Character.toLowerCase(inputSpieler[0]);
-                    if (inputChar.equals('m')) {
-                        this.matrix.getMatrix().get(i).markiertAendern();
-                    }
-                    if (inputChar.equals('t')) {
-                        this.matrix.getMatrix().get(i).aufgedecktAendern();
-                    }
-                }
-            }
+            zellenmarkierungAendern(inputSpieler);
         }
 
     }
@@ -51,6 +41,52 @@ public class SpielEngine {
         }
         else{
             return checkInput();
+        }
+    }
+
+    public void zellenmarkierungAendern(char [] inputSpieler) {
+        for (int i = 0; i < this.matrix.getMatrix().size(); i++) {
+            if (this.matrix.getMatrix().get(i).getX() == Character.getNumericValue(inputSpieler[1]) && this.matrix.getMatrix().get(i).getY() == Character.getNumericValue(inputSpieler[2])) {
+                Character inputChar = Character.toLowerCase(inputSpieler[0]);
+                if (inputChar.equals('m')) {
+                    this.matrix.getMatrix().get(i).markiertAendern();
+                }
+                if (inputChar.equals('t')) {
+                    if (!this.matrix.getMatrix().get(i).getBombeAttribut()) {
+                        this.matrix.getMatrix().get(i).aufgedecktAendern();
+                    }
+                    else {
+                        this.gameOver = true;
+                    }
+                }
+            }
+            if (Character.getNumericValue(inputSpieler[1])-1 > 0) {
+                int xmin = Character.getNumericValue(inputSpieler[1])-1;
+            }
+            if (Character.getNumericValue(inputSpieler[1])-1 <= 0) {
+                int xmin = Character.getNumericValue(inputSpieler[1]);
+            }
+            if (Character.getNumericValue(inputSpieler[1])+1 <= this.matrix.getSize()) {
+                int xmax = Character.getNumericValue(inputSpieler[1])+1;
+            }
+            if (Character.getNumericValue(inputSpieler[1])-1 > this.matrix.getSize()) {
+                int xmax = Character.getNumericValue(inputSpieler[1]);
+            }
+            if (Character.getNumericValue(inputSpieler[2])-1 > 0) {
+                int ymin = Character.getNumericValue(inputSpieler[2])-1;
+            }
+            if (Character.getNumericValue(inputSpieler[2])-1 <= 0) {
+                int ymin = Character.getNumericValue(inputSpieler[2]);
+            }
+            if (Character.getNumericValue(inputSpieler[2])+1 <= this.matrix.getSize()) {
+                int ymax = Character.getNumericValue(inputSpieler[2])+1;
+            }
+            if (Character.getNumericValue(inputSpieler[2])+1 > this.matrix.getSize()) {
+                int ymax = Character.getNumericValue(inputSpieler[2]);
+            }
+            if (this.matrix.getMatrix().get(i).getX() == Character.getNumericValue(inputSpieler[1]) && this.matrix.getMatrix().get(i).getY() == Character.getNumericValue(inputSpieler[2])) {
+                //nothing
+            }
         }
     }
 }

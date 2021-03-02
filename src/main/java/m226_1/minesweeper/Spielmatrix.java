@@ -1,6 +1,7 @@
 package m226_1.minesweeper;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class Spielmatrix {
     private ArrayList<Zelle> matrix = new ArrayList<>();
@@ -12,10 +13,20 @@ public class Spielmatrix {
     }
 
     public void zellenHinzufuegen() {
+        Random rnd = new Random();
         for (int i = 0; i < this.size; i++) {
             for (int j = 0; j < this.size; j++) {
-                Zelle zelle = new Zelle(i, j);
-                this.matrix.add(zelle);
+                int x = i+1;
+                int y = j+1;
+                int wahlBombe = rnd.nextInt(6);
+                if (wahlBombe == 5) {
+                    Zelle zelle = new Zelle(x, y, true);
+                    this.matrix.add(zelle);
+                }
+                else{
+                    Zelle zelle = new Zelle(x, y, false);
+                    this.matrix.add(zelle);
+                }
             }
         }
     }
@@ -58,5 +69,9 @@ public class Spielmatrix {
 
     public ArrayList<Zelle> getMatrix() {
         return this.matrix;
+    }
+
+    public int getSize() {
+        return this.size;
     }
 }

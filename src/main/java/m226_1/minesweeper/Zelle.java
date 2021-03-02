@@ -6,11 +6,12 @@ public class Zelle {
     private int xPosition;
     private int yPosition;
     private boolean istBombe;
-    public Zelle(int xPosition, int yPosition) {
+    public Zelle(int xPosition, int yPosition, boolean istbombe) {
         this.aufgedeckt = aufgedeckt;
         this.markiert = markiert;
         this.xPosition = xPosition;
         this.yPosition = yPosition;
+        this.istBombe = istBombe;
     }
 
     public boolean getAufgedeckt() {
@@ -23,7 +24,6 @@ public class Zelle {
     public void markiertAendern() {
         if (this.markiert == false) {
             this.markiert = true;
-            System.out.println("Changed");
         }
         else {
             this.markiert = false;
@@ -46,4 +46,6 @@ public class Zelle {
     public int getY() {
         return this.yPosition;
     }
+
+    public boolean getBombeAttribut() {return this.istBombe;}
 }
