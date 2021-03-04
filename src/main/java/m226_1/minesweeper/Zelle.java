@@ -5,13 +5,15 @@ public class Zelle {
     private boolean markiert = false;
     private int xPosition;
     private int yPosition;
-    private boolean istBombe;
-    public Zelle(int xPosition, int yPosition, boolean istbombe) {
+    private boolean istBombe = false;
+    private int benachbarteBomben = 0;
+    public Zelle(int xPosition, int yPosition, boolean istBombe) {
         this.aufgedeckt = aufgedeckt;
         this.markiert = markiert;
         this.xPosition = xPosition;
         this.yPosition = yPosition;
         this.istBombe = istBombe;
+        this.benachbarteBomben = benachbarteBomben;
     }
 
     public boolean getAufgedeckt() {
@@ -35,7 +37,7 @@ public class Zelle {
             this.aufgedeckt = true;
         }
         else {
-            this.aufgedeckt = false;
+            this.aufgedeckt = true;
         }
     }
 
@@ -48,4 +50,12 @@ public class Zelle {
     }
 
     public boolean getBombeAttribut() {return this.istBombe;}
+
+    public void setBenachbarteBomben() {
+        this.benachbarteBomben++;
+    }
+
+    public int getBenachbarteBomben() {
+        return this.benachbarteBomben;
+    }
 }

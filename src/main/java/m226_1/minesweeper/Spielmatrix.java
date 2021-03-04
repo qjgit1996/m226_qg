@@ -21,6 +21,7 @@ public class Spielmatrix {
                 int wahlBombe = rnd.nextInt(6);
                 if (wahlBombe == 5) {
                     Zelle zelle = new Zelle(x, y, true);
+                    System.out.println("Bombe" + zelle.getBombeAttribut());
                     this.matrix.add(zelle);
                 }
                 else{
@@ -59,7 +60,10 @@ public class Spielmatrix {
                         System.out.print("  *");
                     }
                     if (this.matrix.get(i-(this.size+diff)).getAufgedeckt()) {
-                        System.out.print("  1");
+                        System.out.print("  " + this.matrix.get(i).getBenachbarteBomben());
+                    }
+                    if (this.matrix.get(i-(this.size+diff)).getBombeAttribut()) {
+                        System.out.print("  B");
                     }
                     System.out.print("   ");
                 }

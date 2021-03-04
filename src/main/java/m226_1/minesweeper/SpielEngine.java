@@ -1,20 +1,27 @@
 package m226_1.minesweeper;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.stream.DoubleStream;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 import java.util.Scanner;
 
 public class SpielEngine {
-    boolean gameOver;
-    Spielmatrix matrix;
+    private boolean gameOver;
+    private Spielmatrix matrix;
+    private char[] inputSpieler;
     public SpielEngine(Spielmatrix matrix) {
         this.gameOver = false;
         this.matrix = matrix;
+        this.inputSpieler = inputSpieler;
     }
 
     public void start() {
         while (!this.gameOver) {
             this.matrix.matrixAusgeben();
-            char[] inputSpieler = checkInput();
-            zellenmarkierungAendern(inputSpieler);
+            this.inputSpieler = checkInput();
+            zellenmarkierungAendern();
         }
 
     }
@@ -44,10 +51,10 @@ public class SpielEngine {
         }
     }
 
-    public void zellenmarkierungAendern(char [] inputSpieler) {
+    public void zellenmarkierungAendern() {
         for (int i = 0; i < this.matrix.getMatrix().size(); i++) {
-            if (this.matrix.getMatrix().get(i).getX() == Character.getNumericValue(inputSpieler[1]) && this.matrix.getMatrix().get(i).getY() == Character.getNumericValue(inputSpieler[2])) {
-                Character inputChar = Character.toLowerCase(inputSpieler[0]);
+            if (this.matrix.getMatrix().get(i).getX() == Character.getNumericValue(this.inputSpieler[1]) && this.matrix.getMatrix().get(i).getY() == Character.getNumericValue(this.inputSpieler[2])) {
+                Character inputChar = Character.toLowerCase(this.inputSpieler[0]);
                 if (inputChar.equals('m')) {
                     this.matrix.getMatrix().get(i).markiertAendern();
                 }
@@ -60,33 +67,36 @@ public class SpielEngine {
                     }
                 }
             }
-            if (Character.getNumericValue(inputSpieler[1])-1 > 0) {
-                int xmin = Character.getNumericValue(inputSpieler[1])-1;
+        }
+    }
+
+    public void dreierMatrixAlgorithmus(Zelle zelle) {
+        Zelle[] dreierMatrix = this.matrix.getMatrix().stream().filter(e -> e.getX() == Character.getNumericValue(inputSpieler[1])-1 && e.getY() == Character.getNumericValue(inputSpieler[2])-1 ||
+                e.getX() == Character.getNumericValue(inputSpieler[1])-1 && e.getY() == Character.getNumericValue(inputSpieler[2]) ||
+                e.getX() == Character.getNumericValue(inputSpieler[1])-1 && e.getY() == Character.getNumericValue(inputSpieler[2])+1 ||
+                e.getX() == Character.getNumericValue(inputSpieler[1]) && e.getY() == Character.getNumericValue(inputSpieler[2])-1 ||
+                e.getX() == Character.getNumericValue(inputSpieler[1]) && e.getY() == Character.getNumericValue(inputSpieler[2])+1 ||
+                e.getX() == Character.getNumericValue(inputSpieler[1])+1 && e.getY() == Character.getNumericValue(inputSpieler[2])-1 ||
+                e.getX() == Character.getNumericValue(inputSpieler[1])+1 && e.getY() == Character.getNumericValue(inputSpieler[2]) ||
+                e.getX() == Character.getNumericValue(inputSpieler[1])+1 && e.getY() == Character.getNumericValue(inputSpieler[2])+1).toArray(Zelle[]::new);
+        int anzahlBombenfrei = 0;
+        for (int i = 0; i < dreierMatrix.length; i++) {
+            if (dreierMatrix[i].getBombeAttribut() == true)
+            {
+                zelle.setBenachbarteBomben();
             }
-            if (Character.getNumericValue(inputSpieler[1])-1 <= 0) {
-                int xmin = Character.getNumericValue(inputSpieler[1]);
-            }
-            if (Character.getNumericValue(inputSpieler[1])+1 <= this.matrix.getSize()) {
-                int xmax = Character.getNumericValue(inputSpieler[1])+1;
-            }
-            if (Character.getNumericValue(inputSpieler[1])-1 > this.matrix.getSize()) {
-                int xmax = Character.getNumericValue(inputSpieler[1]);
-            }
-            if (Character.getNumericValue(inputSpieler[2])-1 > 0) {
-                int ymin = Character.getNumericValue(inputSpieler[2])-1;
-            }
-            if (Character.getNumericValue(inputSpieler[2])-1 <= 0) {
-                int ymin = Character.getNumericValue(inputSpieler[2]);
-            }
-            if (Character.getNumericValue(inputSpieler[2])+1 <= this.matrix.getSize()) {
-                int ymax = Character.getNumericValue(inputSpieler[2])+1;
-            }
-            if (Character.getNumericValue(inputSpieler[2])+1 > this.matrix.getSize()) {
-                int ymax = Character.getNumericValue(inputSpieler[2]);
-            }
-            if (this.matrix.getMatrix().get(i).getX() == Character.getNumericValue(inputSpieler[1]) && this.matrix.getMatrix().get(i).getY() == Character.getNumericValue(inputSpieler[2])) {
-                //nothing
+            else {
+                anzahlBombenfrei++;
             }
         }
+        if (anzahlBombenfrei == dreierMatrix.length) {
+            for (int i = 0; i < dreierMatrix.length; i++) {
+                dreierMatrix[i].aufgedecktAendern();
+                if (dreierMatrix[i].getX() == this.inputSpieler[1] && dreierMatrix[i].getY() == this.inputSpieler[2]) {
+                    dreierMatrixAlgorithmus(dreierMatrix[i]);
+                }
+            }
+        }
+
     }
 }
