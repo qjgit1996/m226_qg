@@ -53,6 +53,7 @@ public class Zelle {
 
     public void setBenachbarteBomben() {
         this.benachbarteBomben++;
+        System.out.println(this.benachbarteBomben);
     }
 
     public int getBenachbarteBomben() {

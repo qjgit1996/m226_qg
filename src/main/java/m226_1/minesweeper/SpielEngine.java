@@ -37,12 +37,10 @@ public class SpielEngine {
         Character testVariable = Character.toLowerCase(spielzug[0]);
         if (testVariable.equals('m') || testVariable.equals('t')) {
             try {
-                System.out.println("int");
                 Integer.valueOf(spielzug[1]);
                 Integer.valueOf(spielzug[2]);
                 return spielzug;
             } catch (NumberFormatException e) {
-                System.out.println("not int");
                 return checkInput();
             }
         }
@@ -61,16 +59,19 @@ public class SpielEngine {
                 if (inputChar.equals('t')) {
                     if (!this.matrix.getMatrix().get(i).getBombeAttribut()) {
                         this.matrix.getMatrix().get(i).aufgedecktAendern();
+                        dreierMatrixAlgorithmus(this.matrix.getMatrix().get(i));
                     }
                     else {
+                        System.out.println("That was a bomb! Game Over!!");
                         this.gameOver = true;
                     }
                 }
             }
+            checkGameOver();
         }
     }
 
-    public void dreierMatrixAlgorithmus(Zelle zelle) {
+    public boolean dreierMatrixAlgorithmus(Zelle zelle) {
         Zelle[] dreierMatrix = this.matrix.getMatrix().stream().filter(e -> e.getX() == Character.getNumericValue(inputSpieler[1])-1 && e.getY() == Character.getNumericValue(inputSpieler[2])-1 ||
                 e.getX() == Character.getNumericValue(inputSpieler[1])-1 && e.getY() == Character.getNumericValue(inputSpieler[2]) ||
                 e.getX() == Character.getNumericValue(inputSpieler[1])-1 && e.getY() == Character.getNumericValue(inputSpieler[2])+1 ||
@@ -80,23 +81,44 @@ public class SpielEngine {
                 e.getX() == Character.getNumericValue(inputSpieler[1])+1 && e.getY() == Character.getNumericValue(inputSpieler[2]) ||
                 e.getX() == Character.getNumericValue(inputSpieler[1])+1 && e.getY() == Character.getNumericValue(inputSpieler[2])+1).toArray(Zelle[]::new);
         int anzahlBombenfrei = 0;
+        System.out.println(dreierMatrix.length);
         for (int i = 0; i < dreierMatrix.length; i++) {
-            if (dreierMatrix[i].getBombeAttribut() == true)
+            if (dreierMatrix[i].getBombeAttribut())
             {
                 zelle.setBenachbarteBomben();
+                System.out.println("Finally");
             }
             else {
                 anzahlBombenfrei++;
             }
         }
-        if (anzahlBombenfrei == dreierMatrix.length) {
+        System.out.println(anzahlBombenfrei);
+        if (anzahlBombenfrei >= dreierMatrix.length-1) {
+            System.out.println("dreierMatrix");
             for (int i = 0; i < dreierMatrix.length; i++) {
+                System.out.println("In algo");
                 dreierMatrix[i].aufgedecktAendern();
-                if (dreierMatrix[i].getX() == this.inputSpieler[1] && dreierMatrix[i].getY() == this.inputSpieler[2]) {
-                    dreierMatrixAlgorithmus(dreierMatrix[i]);
+                System.out.println(Character.getNumericValue(this.inputSpieler[1]));
+                System.out.println(zelle.getX());
+                if (zelle.getX() == Character.getNumericValue(this.inputSpieler[1]) && zelle.getY() == Character.getNumericValue(this.inputSpieler[2])) {
+                    System.out.println("deeper in algo");
+                    return dreierMatrixAlgorithmus(dreierMatrix[i]);
                 }
             }
         }
+        return true;
+    }
 
+    public void checkGameOver() {
+        int alle = 0;
+        for (int i = 0; i < this.matrix.getMatrix().size(); i++) {
+            if (this.matrix.getMatrix().get(i).getMarkiert() && this.matrix.getMatrix().get(i).getBombeAttribut()) {
+                alle++;
+                if (alle == this.matrix.getBomben().size()) {
+                    System.out.println("You found all bombs!! Congrats ***");
+                    this.gameOver = true;
+                }
+            }
+        }
     }
 }

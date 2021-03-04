@@ -5,10 +5,12 @@ import java.util.Random;
 
 public class Spielmatrix {
     private ArrayList<Zelle> matrix = new ArrayList<>();
+    private ArrayList<Zelle> bomben = new ArrayList<>();
     private int size;
 
     public Spielmatrix(int size) {
         this.matrix = matrix;
+        this.bomben = bomben;
         this.size = size;
     }
 
@@ -18,11 +20,11 @@ public class Spielmatrix {
             for (int j = 0; j < this.size; j++) {
                 int x = i+1;
                 int y = j+1;
-                int wahlBombe = rnd.nextInt(6);
+                int wahlBombe = rnd.nextInt(10);
                 if (wahlBombe == 5) {
                     Zelle zelle = new Zelle(x, y, true);
-                    System.out.println("Bombe" + zelle.getBombeAttribut());
                     this.matrix.add(zelle);
+                    this.bomben.add(zelle);
                 }
                 else{
                     Zelle zelle = new Zelle(x, y, false);
@@ -59,20 +61,27 @@ public class Spielmatrix {
                     if (this.matrix.get(i-(this.size+diff)).getMarkiert()) {
                         System.out.print("  *");
                     }
-                    if (this.matrix.get(i-(this.size+diff)).getAufgedeckt()) {
-                        System.out.print("  " + this.matrix.get(i).getBenachbarteBomben());
-                    }
-                    if (this.matrix.get(i-(this.size+diff)).getBombeAttribut()) {
+                    else if (this.matrix.get(i-(this.size+diff)).getBombeAttribut()) {
                         System.out.print("  B");
                     }
-                    System.out.print("   ");
+                    else if (this.matrix.get(i-(this.size+diff)).getAufgedeckt()) {
+                        System.out.print("  " + this.matrix.get(i-(this.size+diff)).getBenachbarteBomben());
+                    }
+                    else {
+                        System.out.print("   ");
+                    }
                 }
             }
         }
+
     }
 
     public ArrayList<Zelle> getMatrix() {
         return this.matrix;
+    }
+
+    public ArrayList<Zelle> getBomben() {
+        return this.bomben;
     }
 
     public int getSize() {
