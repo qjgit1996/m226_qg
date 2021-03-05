@@ -72,36 +72,30 @@ public class SpielEngine {
     }
 
     public boolean dreierMatrixAlgorithmus(Zelle zelle) {
-        Zelle[] dreierMatrix = this.matrix.getMatrix().stream().filter(e -> e.getX() == Character.getNumericValue(inputSpieler[1])-1 && e.getY() == Character.getNumericValue(inputSpieler[2])-1 ||
-                e.getX() == Character.getNumericValue(inputSpieler[1])-1 && e.getY() == Character.getNumericValue(inputSpieler[2]) ||
-                e.getX() == Character.getNumericValue(inputSpieler[1])-1 && e.getY() == Character.getNumericValue(inputSpieler[2])+1 ||
-                e.getX() == Character.getNumericValue(inputSpieler[1]) && e.getY() == Character.getNumericValue(inputSpieler[2])-1 ||
-                e.getX() == Character.getNumericValue(inputSpieler[1]) && e.getY() == Character.getNumericValue(inputSpieler[2])+1 ||
-                e.getX() == Character.getNumericValue(inputSpieler[1])+1 && e.getY() == Character.getNumericValue(inputSpieler[2])-1 ||
-                e.getX() == Character.getNumericValue(inputSpieler[1])+1 && e.getY() == Character.getNumericValue(inputSpieler[2]) ||
-                e.getX() == Character.getNumericValue(inputSpieler[1])+1 && e.getY() == Character.getNumericValue(inputSpieler[2])+1).toArray(Zelle[]::new);
+        Zelle[] dreierMatrix = this.matrix.getMatrix().stream().filter(e -> e.getX() == zelle.getX()-1 && e.getY() == zelle.getY()-1 ||
+                e.getX() == zelle.getX()-1 && e.getY() == zelle.getY() ||
+                e.getX() == zelle.getX()-1 && e.getY() == zelle.getY()+1 ||
+                e.getX() == zelle.getX() && e.getY() == zelle.getY()-1 ||
+                e.getX() == zelle.getX() && e.getY() == zelle.getY()+1 ||
+                e.getX() == zelle.getX()+1 && e.getY() == zelle.getY()-1 ||
+                e.getX() == zelle.getX()+1 && e.getY() == zelle.getY() ||
+                e.getX() == zelle.getX()+1 && e.getY() == zelle.getY()+1).toArray(Zelle[]::new);
         int anzahlBombenfrei = 0;
         System.out.println(dreierMatrix.length);
         for (int i = 0; i < dreierMatrix.length; i++) {
             if (dreierMatrix[i].getBombeAttribut())
             {
                 zelle.setBenachbarteBomben();
-                System.out.println("Finally");
             }
             else {
                 anzahlBombenfrei++;
             }
         }
         System.out.println(anzahlBombenfrei);
-        if (anzahlBombenfrei >= dreierMatrix.length-1) {
-            System.out.println("dreierMatrix");
+        if (anzahlBombenfrei >= dreierMatrix.length-4) {
             for (int i = 0; i < dreierMatrix.length; i++) {
-                System.out.println("In algo");
                 dreierMatrix[i].aufgedecktAendern();
-                System.out.println(Character.getNumericValue(this.inputSpieler[1]));
-                System.out.println(zelle.getX());
                 if (zelle.getX() == Character.getNumericValue(this.inputSpieler[1]) && zelle.getY() == Character.getNumericValue(this.inputSpieler[2])) {
-                    System.out.println("deeper in algo");
                     return dreierMatrixAlgorithmus(dreierMatrix[i]);
                 }
             }
