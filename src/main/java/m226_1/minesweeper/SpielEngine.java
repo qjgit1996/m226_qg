@@ -41,6 +41,7 @@ public class SpielEngine {
                 Integer.valueOf(spielzug[2]);
                 return spielzug;
             } catch (NumberFormatException e) {
+                System.out.println("That input was not valid!");
                 return checkInput();
             }
         }
@@ -58,8 +59,8 @@ public class SpielEngine {
                 }
                 if (inputChar.equals('t')) {
                     if (!this.matrix.getMatrix().get(i).getBombeAttribut()) {
-                        this.matrix.getMatrix().get(i).aufgedecktAendern();
-                        dreierMatrixAlgorithmus(this.matrix.getMatrix().get(i));
+                        int anzahlTiefen = 0;
+                        dreierMatrixAlgorithmus(this.matrix.getMatrix().get(i), anzahlTiefen);
                     }
                     else {
                         System.out.println("That was a bomb! Game Over!!");
@@ -71,7 +72,11 @@ public class SpielEngine {
         }
     }
 
-    public boolean dreierMatrixAlgorithmus(Zelle zelle) {
+    public void dreierMatrixAlgorithmus(Zelle zelle, int anzahlTiefen) {
+        int anzahlBomben = 0;
+        if (!zelle.getBombeAttribut()) {
+            zelle.aufgedecktAendern();
+        }
         Zelle[] dreierMatrix = this.matrix.getMatrix().stream().filter(e -> e.getX() == zelle.getX()-1 && e.getY() == zelle.getY()-1 ||
                 e.getX() == zelle.getX()-1 && e.getY() == zelle.getY() ||
                 e.getX() == zelle.getX()-1 && e.getY() == zelle.getY()+1 ||
@@ -80,27 +85,22 @@ public class SpielEngine {
                 e.getX() == zelle.getX()+1 && e.getY() == zelle.getY()-1 ||
                 e.getX() == zelle.getX()+1 && e.getY() == zelle.getY() ||
                 e.getX() == zelle.getX()+1 && e.getY() == zelle.getY()+1).toArray(Zelle[]::new);
-        int anzahlBombenfrei = 0;
-        System.out.println(dreierMatrix.length);
         for (int i = 0; i < dreierMatrix.length; i++) {
             if (dreierMatrix[i].getBombeAttribut())
             {
                 zelle.setBenachbarteBomben();
-            }
-            else {
-                anzahlBombenfrei++;
+                anzahlBomben++;
             }
         }
-        System.out.println(anzahlBombenfrei);
-        if (anzahlBombenfrei >= dreierMatrix.length-4) {
+        if (anzahlTiefen <= 0 && anzahlBomben <= 1) {
+            anzahlTiefen++;
             for (int i = 0; i < dreierMatrix.length; i++) {
-                dreierMatrix[i].aufgedecktAendern();
-                if (zelle.getX() == Character.getNumericValue(this.inputSpieler[1]) && zelle.getY() == Character.getNumericValue(this.inputSpieler[2])) {
-                    return dreierMatrixAlgorithmus(dreierMatrix[i]);
+                if (!dreierMatrix[i].getBombeAttribut()) {
+                    System.out.println(anzahlTiefen);
+                    dreierMatrixAlgorithmus(dreierMatrix[i], anzahlTiefen);
                 }
             }
         }
-        return true;
     }
 
     public void checkGameOver() {
