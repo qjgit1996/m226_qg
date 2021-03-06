@@ -46,10 +46,10 @@ public class Spielmatrix {
         for (int i = 0; i <= computedSize-1; i++) {
             if (zeile == 0) {
                 if (i == 0) {
-                    System.out.print("  ");
+                    System.out.print(" ");
                 }
                 if (i != 0) {
-                    System.out.print("   "+i);
+                    System.out.print("  "+i);
                 }
                 if (i % this.size == 0 && i != 0) {
                     zeile++;
@@ -60,25 +60,20 @@ public class Spielmatrix {
                     System.out.println();
                     System.out.print(zeile);
                     zeile++;
-                    if (i < 10) {
-                        diff++;
-                    }
-                    else if (i >= 100) {
-                        diff = diff - 1;
-                    }
+                    diff++;
                 }
                 else {
                     if (this.matrix.get(i-(this.size+diff)).getMarkiert()) {
-                        System.out.print("   *");
+                        System.out.print("  *");
                     }
                     else if (this.matrix.get(i-(this.size+diff)).getBombeAttribut()) {
-                        System.out.print("   B");
+                        System.out.print("  B");
                     }
                     else if (this.matrix.get(i-(this.size+diff)).getAufgedeckt()) {
-                        System.out.print("   " + this.matrix.get(i-(this.size+diff)).getBenachbarteBomben());
+                        System.out.print("  " + this.matrix.get(i-(this.size+diff)).getBenachbarteBomben());
                     }
                     else {
-                        System.out.print("    ");
+                        System.out.print("   ");
                     }
                 }
             }
