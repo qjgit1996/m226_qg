@@ -67,13 +67,37 @@ public class Spielmatrix {
                         System.out.print("  *");
                     }
                     else if (this.matrix.get(i-(this.size+diff)).getBombeAttribut()) {
-                        System.out.print("  B");
+                        if (this.matrix.get(i-(this.size+diff)).getY()>=10 && this.matrix.get(i-(this.size+diff)).getY()<100 && zeile <= 10) {
+                            System.out.print("   B");
+                        }
+                        else if (this.matrix.get(i-(this.size+diff)).getY()>=100 && zeile <= 100) {
+                            System.out.print("    B");
+                        }
+                        else {
+                            System.out.print("  B");
+                        }
                     }
                     else if (this.matrix.get(i-(this.size+diff)).getAufgedeckt()) {
-                        System.out.print("  " + this.matrix.get(i-(this.size+diff)).getBenachbarteBomben());
+                        if (this.matrix.get(i-(this.size+diff)).getY()>=10 && this.matrix.get(i-(this.size+diff)).getY()<100 && zeile <= 10) {
+                            System.out.print("   " + this.matrix.get(i-(this.size+diff)).getBenachbarteBomben());
+                        }
+                        else if (this.matrix.get(i-(this.size+diff)).getY()>=100 && zeile <= 100) {
+                            System.out.print("    " + this.matrix.get(i-(this.size+diff)).getBenachbarteBomben());
+                        }
+                        else {
+                            System.out.print("  " + this.matrix.get(i-(this.size+diff)).getBenachbarteBomben());
+                        }
                     }
                     else {
-                        System.out.print("   ");
+                        if (this.matrix.get(i-(this.size+diff)).getY()>=10 && this.matrix.get(i-(this.size+diff)).getY()<100 && zeile <= 10) {
+                            System.out.print("    ");
+                        }
+                        else if (this.matrix.get(i-(this.size+diff)).getY()>=100 && zeile <= 100) {
+                            System.out.print("     ");
+                        }
+                        else {
+                            System.out.print("   ");
+                        }
                     }
                 }
             }
