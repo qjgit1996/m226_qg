@@ -60,7 +60,12 @@ public class Spielmatrix {
                     System.out.println();
                     System.out.print(zeile);
                     zeile++;
-                    diff++;
+                    if (i < 10) {
+                        diff++;
+                    }
+                    else if (i >= 100) {
+                        diff = diff - 1;
+                    }
                 }
                 else {
                     if (this.matrix.get(i-(this.size+diff)).getMarkiert()) {
