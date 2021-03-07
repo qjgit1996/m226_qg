@@ -7,16 +7,29 @@ import java.util.stream.Stream;
 
 import java.util.Scanner;
 
+/**
+ * Diese Klasse führt alle Berechnungen des Spiels durch.
+ * @author Quinten Groenveld
+ * @version 1.1
+ */
 public class SpielEngine {
     private boolean gameOver;
     private Spielmatrix matrix;
     private char[] inputSpieler;
+
+    /**
+     * Konstruktor Funktion für die Spielengine.
+     * @param matrix Stellt die Spielmatrix dar mit den gespeicherten Zellen/Bomben.
+     */
     public SpielEngine(Spielmatrix matrix) {
         this.gameOver = false;
         this.matrix = matrix;
         this.inputSpieler = inputSpieler;
     }
 
+    /**
+     * Regelt den Spielablauf und sorgt, dass das Spiel im richtigen Moment gestoppt wird.
+     */
     public void start() {
         while (!this.gameOver) {
             this.matrix.matrixAusgeben();
@@ -25,6 +38,11 @@ public class SpielEngine {
         }
 
     }
+
+    /**
+     * Kontrolliert den Input des Spielenden und gibt den Input zurück, wenn er gültig ist.
+     * @return Gültigen Input des Spielenden.
+     */
     public char[] checkInput() {
         System.out.println();
         System.out.println("Where are the bombs?");
@@ -50,6 +68,9 @@ public class SpielEngine {
         }
     }
 
+    /**
+     * Bearbeitet den Input des Spielenden. Markierungen oder Aufdecken von Zellen.
+     */
     public void zellenmarkierungAendern() {
         for (int i = 0; i < this.matrix.getMatrix().size(); i++) {
             if (this.matrix.getMatrix().get(i).getX() == Character.getNumericValue(this.inputSpieler[1]) && this.matrix.getMatrix().get(i).getY() == Character.getNumericValue(this.inputSpieler[2])) {
@@ -72,6 +93,11 @@ public class SpielEngine {
         }
     }
 
+    /**
+     * Ermöglicht dem Spielenden mehr Felder aufzudecken, wenn wenig Bomben in der Nähe sind.
+     * @param zelle Zelle, welche aufgedeckt wurde.
+     * @param anzahlTiefen Integer, welche Rekursionstiefe definiert.
+     */
     public void dreierMatrixAlgorithmus(Zelle zelle, int anzahlTiefen) {
         int anzahlBomben = 0;
         if (!zelle.getBombeAttribut()) {
@@ -96,13 +122,15 @@ public class SpielEngine {
             anzahlTiefen++;
             for (int i = 0; i < dreierMatrix.length; i++) {
                 if (!dreierMatrix[i].getBombeAttribut()) {
-                    System.out.println(anzahlTiefen);
                     dreierMatrixAlgorithmus(dreierMatrix[i], anzahlTiefen);
                 }
             }
         }
     }
 
+    /**
+     * Kontrolliert nach jedem Spielzug, ob das Spiel fertig ist oder nicht.
+     */
     public void checkGameOver() {
         int alle = 0;
         for (int i = 0; i < this.matrix.getMatrix().size(); i++) {
