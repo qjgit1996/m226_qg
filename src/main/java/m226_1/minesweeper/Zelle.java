@@ -12,6 +12,8 @@ public class Zelle {
     private int xPosition;
     private int yPosition;
     private boolean istBombe;
+    private boolean gezaehlt;
+    private boolean iteriert;
     private int benachbarteBomben = 0;
 
     /**
@@ -21,12 +23,11 @@ public class Zelle {
      * @param istBombe Variable, welche aussagt, ob die Zelle eine Bombe ist oder nicht.
      */
     public Zelle(int xPosition, int yPosition, boolean istBombe) {
-        this.aufgedeckt = aufgedeckt;
-        this.markiert = markiert;
         this.xPosition = xPosition;
         this.yPosition = yPosition;
         this.istBombe = istBombe;
-        this.benachbarteBomben = benachbarteBomben;
+        this.gezaehlt = false;
+        this.iteriert = false;
     }
 
     /**
@@ -49,7 +50,7 @@ public class Zelle {
      * Ändert die Markierung von false auf true.
      */
     public void markiertAendern() {
-        if (this.markiert == false) {
+        if (!this.markiert) {
             this.markiert = true;
         }
         else {
@@ -62,7 +63,7 @@ public class Zelle {
      * wenn die Zelle vorher markiert war.
      */
     public void aufgedecktAendern() {
-        if (this.aufgedeckt == false) {
+        if (!this.aufgedeckt) {
             this.aufgedeckt = true;
             if (this.markiert) {
                 this.markiert = false;
@@ -108,5 +109,21 @@ public class Zelle {
      */
     public int getBenachbarteBomben() {
         return this.benachbarteBomben;
+    }
+
+    public boolean getGezaehlt() {
+        return this.gezaehlt;
+    }
+
+    public void setGezaehlt() {
+        this.gezaehlt = true;
+    }
+
+    public boolean getIteriert() {
+        return this.iteriert;
+    }
+
+    public void setIteriert() {
+        this.iteriert = true;
     }
 }
