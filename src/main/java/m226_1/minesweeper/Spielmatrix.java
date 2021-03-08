@@ -75,7 +75,15 @@ public class Spielmatrix {
                 }
                 else {
                     if (this.matrix.get(i-(this.size+diff)).getMarkiert()) {
-                        System.out.print("  *");
+                        if (this.matrix.get(i-(this.size+diff)).getY()>=10 && this.matrix.get(i-(this.size+diff)).getY()<100 && zeile < 10) {
+                            System.out.print("   *");
+                        }
+                        else if (this.matrix.get(i-(this.size+diff)).getY()>=100 && zeile <= 100) {
+                            System.out.print("    *");
+                        }
+                        else {
+                            System.out.print("  *");
+                        }
                     }
                     //Testing Case to see which fields are bombs
                     //else if (this.matrix.get(i-(this.size+diff)).getBombeAttribut()) {

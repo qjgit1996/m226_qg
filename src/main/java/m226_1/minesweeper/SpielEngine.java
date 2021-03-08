@@ -25,7 +25,6 @@ public class SpielEngine {
     public SpielEngine(Spielmatrix matrix) {
         this.gameOver = false;
         this.matrix = matrix;
-        this.inputSpieler = inputSpieler;
     }
 
     /**
@@ -57,7 +56,7 @@ public class SpielEngine {
         Character testVariable = Character.toLowerCase(spielzug[0]);
         if (testVariable.equals('m') || testVariable.equals('t')) {
             try {
-                if (spielzug.length > 4 && spielzug.length <= 5) {
+                if (spielzug.length == 5) {
                     if (spielzug[2] != ',') {
                         Integer.valueOf(spielzug[3] + spielzug[4]);
                         Integer.valueOf(spielzug[1]);
@@ -68,26 +67,22 @@ public class SpielEngine {
                         Integer.valueOf(spielzug[4]);
                         return spielzug;
                     }
-                }
-                else if (spielzug.length > 5) {
+                } else if (spielzug.length > 5) {
                     Integer.valueOf(spielzug[1] + spielzug[2]);
                     Integer.valueOf(spielzug[3] + spielzug[4]);
                     return spielzug;
-                }
-                else {
+                } else {
                     Integer.valueOf(spielzug[1]);
                     Integer.valueOf(spielzug[3]);
                     return spielzug;
                 }
-
-            }
-            catch (NumberFormatException e) {
+            } catch (NumberFormatException e) {
                 System.out.println("That input was not valid!");
                 return checkInput();
             }
+        } else {
+            return checkInput();
         }
-        else return checkInput();
-        return spielzug;
     }
 
     /**
