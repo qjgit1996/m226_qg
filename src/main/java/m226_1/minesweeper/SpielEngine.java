@@ -1,9 +1,4 @@
 package m226_1.minesweeper;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.stream.DoubleStream;
-import java.util.stream.IntStream;
-import java.util.stream.Stream;
 
 import java.util.Scanner;
 
@@ -54,7 +49,7 @@ public class SpielEngine {
         String inputString = myObj.nextLine();
         char[] spielzug = inputString.toCharArray();
         Character testVariable = Character.toLowerCase(spielzug[0]);
-        if (testVariable.equals('m') || testVariable.equals('t')) {
+        if (testVariable.equals('m') || testVariable.equals('t') && spielzug.length>3) {
             String[] korrekterSpielzug = new String[3];
             korrekterSpielzug[0] = testVariable.toString();
             try {
@@ -133,6 +128,7 @@ public class SpielEngine {
                     return korrekterSpielzug;
                 }
                 else {
+                    System.out.println(spielzug);
                     Integer.valueOf(spielzug[1]);
                     Integer.valueOf(spielzug[3]);
                     korrekterSpielzug[1] = Character.toString(spielzug[1]);
@@ -144,6 +140,7 @@ public class SpielEngine {
                 return checkInput();
             }
         } else {
+            System.out.println("That input was not valid!");
             return checkInput();
         }
     }
@@ -155,13 +152,13 @@ public class SpielEngine {
         for (int i = 0; i < this.matrix.getMatrix().size(); i++) {
             if (this.matrix.getMatrix().get(i).getX() == Integer.parseInt(this.inputSpieler[1]) && this.matrix.getMatrix().get(i).getY() == Integer.parseInt(this.inputSpieler[2])) {
                 String inputChar = this.inputSpieler[0].toLowerCase();
-                if (inputChar.equals('m')) {
+                if (inputChar.equals("m")) {
                     this.matrix.getMatrix().get(i).markiertAendern();
                 }
-                if (inputChar.equals('t')) {
+                if (inputChar.equals("t")) {
                     if (!this.matrix.getMatrix().get(i).getBombeAttribut()) {
-                        int anzahlTiefen = 0;
                         dreierMatrixAlgorithmusV2(this.matrix.getMatrix().get(i));
+                        //int anzahlTiefen = 0;
                         //dreierMatrixAlgorithmus(this.matrix.getMatrix().get(i), anzahlTiefen);
                     }
                     else {
@@ -234,6 +231,7 @@ public class SpielEngine {
         for (int i = 0; i < dreierMatrix.length; i++) {
             if (!dreierMatrix[i].getBombeAttribut()) {
                 bombenZaehlen(dreierMatrix[i]);
+                dreierMatrix[i].aufgedecktAendern();
             }
             if (!dreierMatrix[i].getBombeAttribut() && dreierMatrix[i].getGezaehlt() && dreierMatrix[i].getBenachbarteBomben() == 0 && !dreierMatrix[i].getIteriert()) {
                 dreierMatrix[i].setIteriert();

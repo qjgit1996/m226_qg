@@ -12,8 +12,8 @@ import java.util.Scanner;
 public class Spielmatrix {
     private ArrayList<Zelle> matrix = new ArrayList<>();
     private ArrayList<Zelle> bomben = new ArrayList<>();
-    private int size;
-    private int wahrscheinlichkeit;
+    private int size = 10;
+    private int wahrscheinlichkeit=5;
 
     /**
      * Konstruktor für Spielmatrix Klasse.
@@ -75,7 +75,7 @@ public class Spielmatrix {
                 }
                 else {
                     if (this.matrix.get(i-(this.size+diff)).getMarkiert()) {
-                        if (this.matrix.get(i-(this.size+diff)).getY()>=10 && this.matrix.get(i-(this.size+diff)).getY()<100 && zeile < 10) {
+                        if (this.matrix.get(i-(this.size+diff)).getY()>=10 && this.matrix.get(i-(this.size+diff)).getY()<100 && zeile <= 10) {
                             System.out.print("   *");
                         }
                         else if (this.matrix.get(i-(this.size+diff)).getY()>=100 && zeile <= 100) {
@@ -98,7 +98,7 @@ public class Spielmatrix {
                     //    }
                     //}
                     else if (this.matrix.get(i-(this.size+diff)).getAufgedeckt()) {
-                        if (this.matrix.get(i-(this.size+diff)).getY()>=10 && this.matrix.get(i-(this.size+diff)).getY()<100 && zeile < 10) {
+                        if (this.matrix.get(i-(this.size+diff)).getY()>=10 && this.matrix.get(i-(this.size+diff)).getY()<100 && zeile <= 10) {
                             System.out.print("   " + this.matrix.get(i-(this.size+diff)).getBenachbarteBomben());
                         }
                         else if (this.matrix.get(i-(this.size+diff)).getY()>=100 && zeile <= 100) {
@@ -109,7 +109,7 @@ public class Spielmatrix {
                         }
                     }
                     else {
-                        if (this.matrix.get(i-(this.size+diff)).getY()>=10 && this.matrix.get(i-(this.size+diff)).getY()<100 && zeile < 10) {
+                        if (this.matrix.get(i-(this.size+diff)).getY()>=10 && this.matrix.get(i-(this.size+diff)).getY()<100 && zeile <= 10) {
                             System.out.print("    ");
                         }
                         else if (this.matrix.get(i-(this.size+diff)).getY()>=100 && zeile <= 100) {
