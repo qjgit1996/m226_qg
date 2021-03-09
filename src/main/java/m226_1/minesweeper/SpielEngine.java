@@ -15,7 +15,7 @@ import java.util.Scanner;
 public class SpielEngine {
     private boolean gameOver;
     private Spielmatrix matrix;
-    private char[] inputSpieler;
+    private String[] inputSpieler;
 
     /**
      * Konstruktor Funktion für die Spielengine.
@@ -44,7 +44,7 @@ public class SpielEngine {
      *
      * @return Gültigen Input des Spielenden.
      */
-    public char[] checkInput() {
+    public String[] checkInput() {
         System.out.println();
         System.out.println("Where are the bombs?");
         System.out.println("1. Which field do you want to uncover? -> T Or mark maybe one as a bomb? -> M");
@@ -55,26 +55,89 @@ public class SpielEngine {
         char[] spielzug = inputString.toCharArray();
         Character testVariable = Character.toLowerCase(spielzug[0]);
         if (testVariable.equals('m') || testVariable.equals('t')) {
+            String[] korrekterSpielzug = new String[3];
+            korrekterSpielzug[0] = testVariable.toString();
             try {
                 if (spielzug.length == 5) {
-                    if (spielzug[2] != ',') {
-                        Integer.valueOf(spielzug[3] + spielzug[4]);
+                    if (spielzug[2] == ',') {
+                        StringBuilder sb2 = new StringBuilder().append(spielzug[3]).append(spielzug[4]);
+                        Integer.valueOf(sb2.toString());
                         Integer.valueOf(spielzug[1]);
-                        return spielzug;
+                        korrekterSpielzug[1] = Character.toString(spielzug[1]);
+                        korrekterSpielzug[2] = sb2.toString();
+                        return korrekterSpielzug;
                     }
-                    if (spielzug[3] != ',') {
-                        Integer.valueOf(spielzug[1] + spielzug[2]);
+                    else {
+                        StringBuilder sb2 = new StringBuilder().append(spielzug[1]).append(spielzug[2]);
+                        Integer.valueOf(sb2.toString());
                         Integer.valueOf(spielzug[4]);
-                        return spielzug;
+                        korrekterSpielzug[2] = Character.toString(spielzug[4]);
+                        korrekterSpielzug[1] = sb2.toString();
+                        return korrekterSpielzug;
                     }
-                } else if (spielzug.length > 5) {
-                    Integer.valueOf(spielzug[1] + spielzug[2]);
-                    Integer.valueOf(spielzug[3] + spielzug[4]);
-                    return spielzug;
-                } else {
+                }
+                else if (spielzug.length == 6) {
+                    if (spielzug[3] == ',') {
+                        StringBuilder sb1 = new StringBuilder().append(spielzug[1]).append(spielzug[2]);
+                        StringBuilder sb2 = new StringBuilder().append(spielzug[4]).append(spielzug[5]);
+                        Integer.valueOf(sb1.toString());
+                        Integer.valueOf(sb2.toString());
+                        korrekterSpielzug[1] = sb1.toString();
+                        korrekterSpielzug[2] = sb2.toString();
+                        return korrekterSpielzug;
+                    }
+                    else if (spielzug[4] == ',') {
+                        StringBuilder sb1 = new StringBuilder().append(spielzug[1]).append(spielzug[2]).append(spielzug[3]);
+                        Integer.valueOf(sb1.toString());
+                        Integer.valueOf(spielzug[5]);
+                        korrekterSpielzug[2] = Character.toString(spielzug[5]);
+                        korrekterSpielzug[1] = sb1.toString();
+                        return korrekterSpielzug;
+                    }
+                    else {
+                        StringBuilder sb1 = new StringBuilder().append(spielzug[3]).append(spielzug[4]).append(spielzug[5]);
+                        Integer.valueOf(sb1.toString());
+                        Integer.valueOf(spielzug[1]);
+                        korrekterSpielzug[1] = Character.toString(spielzug[1]);
+                        korrekterSpielzug[2] = sb1.toString();
+                        return korrekterSpielzug;
+                    }
+                }
+                else if (spielzug.length == 7) {
+                    if (spielzug[3] == ',') {
+                        StringBuilder sb1 = new StringBuilder().append(spielzug[1]).append(spielzug[2]);
+                        StringBuilder sb2 = new StringBuilder().append(spielzug[4]).append(spielzug[5]).append(spielzug[6]);
+                        Integer.valueOf(sb1.toString());
+                        Integer.valueOf(sb2.toString());
+                        korrekterSpielzug[1] = sb1.toString();
+                        korrekterSpielzug[2] = sb2.toString();
+                        return korrekterSpielzug;
+                    }
+                    else {
+                        StringBuilder sb1 = new StringBuilder().append(spielzug[1]).append(spielzug[2]).append(spielzug[3]);
+                        StringBuilder sb2 = new StringBuilder().append(spielzug[5]).append(spielzug[6]);
+                        Integer.valueOf(sb1.toString());
+                        Integer.valueOf(sb2.toString());
+                        korrekterSpielzug[1] = sb1.toString();
+                        korrekterSpielzug[2] = sb2.toString();
+                        return korrekterSpielzug;
+                    }
+                }
+                else if (spielzug.length == 8) {
+                    StringBuilder sb1 = new StringBuilder().append(spielzug[1]).append(spielzug[2]).append(spielzug[3]);
+                    StringBuilder sb2 = new StringBuilder().append(spielzug[5]).append(spielzug[6]).append(spielzug[7]);
+                    Integer.valueOf(sb1.toString());
+                    Integer.valueOf(sb2.toString());
+                    korrekterSpielzug[1] = sb1.toString();
+                    korrekterSpielzug[2] = sb2.toString();
+                    return korrekterSpielzug;
+                }
+                else {
                     Integer.valueOf(spielzug[1]);
                     Integer.valueOf(spielzug[3]);
-                    return spielzug;
+                    korrekterSpielzug[1] = Character.toString(spielzug[1]);
+                    korrekterSpielzug[2] = Character.toString(spielzug[3]);
+                    return korrekterSpielzug;
                 }
             } catch (NumberFormatException e) {
                 System.out.println("That input was not valid!");
@@ -90,8 +153,8 @@ public class SpielEngine {
      */
     public void zellenmarkierungAendern() {
         for (int i = 0; i < this.matrix.getMatrix().size(); i++) {
-            if (this.matrix.getMatrix().get(i).getX() == Character.getNumericValue(this.inputSpieler[1]) && this.matrix.getMatrix().get(i).getY() == Character.getNumericValue(this.inputSpieler[2])) {
-                Character inputChar = Character.toLowerCase(this.inputSpieler[0]);
+            if (this.matrix.getMatrix().get(i).getX() == Integer.parseInt(this.inputSpieler[1]) && this.matrix.getMatrix().get(i).getY() == Integer.parseInt(this.inputSpieler[2])) {
+                String inputChar = this.inputSpieler[0].toLowerCase();
                 if (inputChar.equals('m')) {
                     this.matrix.getMatrix().get(i).markiertAendern();
                 }
