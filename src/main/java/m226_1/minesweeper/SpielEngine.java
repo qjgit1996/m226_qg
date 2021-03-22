@@ -1,6 +1,8 @@
 package m226_1.minesweeper;
 
 import java.util.Scanner;
+import m226_1.minesweeper.utils.Matrixfilter;
+import m226_1.minesweeper.utils.Instruktionen;
 
 /**
  * Diese Klasse führt alle Berechnungen des Spiels durch.
@@ -8,6 +10,8 @@ import java.util.Scanner;
  * @version 1.1
  */
 public class SpielEngine {
+    static Matrixfilter mf = new Matrixfilter();
+    static Instruktionen i = new Instruktionen();
     private boolean gameOver;
     private Spielmatrix matrix;
     private String[] inputSpieler;
@@ -40,11 +44,7 @@ public class SpielEngine {
      * @return Gültigen Input des Spielenden.
      */
     public String[] checkInput() {
-        System.out.println();
-        System.out.println("Where are the bombs?");
-        System.out.println("1. Which field do you want to uncover? -> T Or mark maybe one as a bomb? -> M");
-        System.out.println("2. Choose the x coordinate you want to check");
-        System.out.println("3. Choose the y coordinate you want to check");
+        i.printErsteInstruktionen();
         Scanner myObj = new Scanner(System.in);  // Create a Scanner object
         String inputString = myObj.nextLine();
         char[] spielzug = inputString.toCharArray();
@@ -181,14 +181,7 @@ public class SpielEngine {
         if (!zelle.getBombeAttribut()) {
             zelle.aufgedecktAendern();
         }
-        Zelle[] dreierMatrix = this.matrix.getMatrix().stream().filter(e -> e.getX() == zelle.getX()-1 && e.getY() == zelle.getY()-1 ||
-                e.getX() == zelle.getX()-1 && e.getY() == zelle.getY() ||
-                e.getX() == zelle.getX()-1 && e.getY() == zelle.getY()+1 ||
-                e.getX() == zelle.getX() && e.getY() == zelle.getY()-1 ||
-                e.getX() == zelle.getX() && e.getY() == zelle.getY()+1 ||
-                e.getX() == zelle.getX()+1 && e.getY() == zelle.getY()-1 ||
-                e.getX() == zelle.getX()+1 && e.getY() == zelle.getY() ||
-                e.getX() == zelle.getX()+1 && e.getY() == zelle.getY()+1).toArray(Zelle[]::new);
+        Zelle[] dreierMatrix = mf.matrixFiltern(this.matrix, zelle);
         if (!zelle.getGezaehlt()) {
             for (int i = 0; i < dreierMatrix.length; i++) {
                 if (dreierMatrix[i].getBombeAttribut()) {
@@ -219,15 +212,7 @@ public class SpielEngine {
         if (!zelle.getGezaehlt()) {
             bombenZaehlen(zelle);
         }
-        Zelle[] dreierMatrix = this.matrix.getMatrix().stream().filter(e -> e.getX() == zelle.getX()-1 && e.getY() == zelle.getY()-1 ||
-                e.getX() == zelle.getX()-1 && e.getY() == zelle.getY() ||
-                e.getX() == zelle.getX()-1 && e.getY() == zelle.getY()+1 ||
-                e.getX() == zelle.getX() && e.getY() == zelle.getY()-1 ||
-                e.getX() == zelle.getX() && e.getY() == zelle.getY()+1 ||
-                e.getX() == zelle.getX()+1 && e.getY() == zelle.getY()-1 ||
-                e.getX() == zelle.getX()+1 && e.getY() == zelle.getY() ||
-                e.getX() == zelle.getX()+1 && e.getY() == zelle.getY()+1).toArray(Zelle[]::new);
-
+        Zelle[] dreierMatrix = mf.matrixFiltern(this.matrix, zelle);
         for (int i = 0; i < dreierMatrix.length; i++) {
             if (!dreierMatrix[i].getBombeAttribut()) {
                 bombenZaehlen(dreierMatrix[i]);
@@ -241,14 +226,7 @@ public class SpielEngine {
     }
 
     public void bombenZaehlen(Zelle zelle) {
-        Zelle[] dreierMatrix = this.matrix.getMatrix().stream().filter(e -> e.getX() == zelle.getX()-1 && e.getY() == zelle.getY()-1 ||
-                e.getX() == zelle.getX()-1 && e.getY() == zelle.getY() ||
-                e.getX() == zelle.getX()-1 && e.getY() == zelle.getY()+1 ||
-                e.getX() == zelle.getX() && e.getY() == zelle.getY()-1 ||
-                e.getX() == zelle.getX() && e.getY() == zelle.getY()+1 ||
-                e.getX() == zelle.getX()+1 && e.getY() == zelle.getY()-1 ||
-                e.getX() == zelle.getX()+1 && e.getY() == zelle.getY() ||
-                e.getX() == zelle.getX()+1 && e.getY() == zelle.getY()+1).toArray(Zelle[]::new);
+        Zelle[] dreierMatrix = mf.matrixFiltern(this.matrix, zelle);
         if (!zelle.getGezaehlt()) {
             for (int i = 0; i < dreierMatrix.length; i++) {
                 if (dreierMatrix[i].getBombeAttribut()) {

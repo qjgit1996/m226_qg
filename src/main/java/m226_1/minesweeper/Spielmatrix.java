@@ -3,6 +3,7 @@ package m226_1.minesweeper;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
+import m226_1.minesweeper.utils.Instruktionen;
 
 /**
  * Diese Klasse speichert die Spielmatrix der Zellen.
@@ -10,6 +11,7 @@ import java.util.Scanner;
  * @version 1.1
  */
 public class Spielmatrix {
+    static Instruktionen i = new Instruktionen();
     private ArrayList<Zelle> matrix = new ArrayList<>();
     private ArrayList<Zelle> bomben = new ArrayList<>();
     private int size = 10;
@@ -155,7 +157,7 @@ public class Spielmatrix {
      * Spielende definiert hat.
      */
     public void schwierigkeitSetzen() {
-        System.out.println("On which difficulty level do you want to play Minesweeper? hard [h], medium [m] or easy [e]");
+        i.schwierigkeitsinstruktionen();
         Scanner myObj = new Scanner(System.in);  // Create a Scanner object
         String inputString = myObj.nextLine();
         if (inputString.equals("h")) {
